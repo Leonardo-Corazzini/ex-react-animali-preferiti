@@ -1,0 +1,69 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei animali Preferiti</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/babel">
+        const { useState } = React
+        function ReactApp() {
+            function AnimalsAccordion() {
+                const animalsChoices = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"]
+                const [animals, setAnimals] = useState(['leone', 'zebra', 'gorilla'])
+                function addAnimal() {
+                    const randomNumber = Math.floor(Math.random() * animalsChoices.length);
+                    const animalRandom = animalsChoices.splice(randomNumber, 1)
+                    setAnimals([...animals, ...animalRandom])
+                }
+                return (
+                    <div>
+                        <button onClick={addAnimal}>Aggiungi animale random</button>
+                        <details>
+                            <summary>Animali</summary>
+                            <ul>
+                                {animals.map((a, i) => {
+                                    return <li key={i}>{a}</li>
+                                })}
+                            </ul>
+                        </details>
+                    </div>
+                )
+            }
+            return <div>
+                <header>
+                    <h1>I miei animali Preferiti</h1>
+                </header>
+                <main>
+                    <figure>
+                        <img src="https://picsum.photos/400/300" alt="Immagine Casuale" />
+                    </figure>
+                    <div className="lista-animali">
+                        {<AnimalsAccordion />}</div>
+                </main>
+                <footer>
+                    <p>Creato con amore da... un collega sbadato! 🐾</p>
+                </footer>
+            </div>
+
+        }
+        const { createRoot } = ReactDOM
+        const elementoSpeficifico = document.querySelector('.elemento-specifico')
+        const root = createRoot(elementoSpeficifico)
+        root.render(<ReactApp />)
+
+    </script>
+</head>
+
+<body>
+    <div class="elemento-specifico">
+
+    </div>
+</body>
+
+</html>
