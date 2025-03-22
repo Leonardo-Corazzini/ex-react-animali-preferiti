@@ -13,17 +13,48 @@
     <script type="text/babel">
         const { useState } = React
         function ReactApp() {
-            function AnimalsAccordion() {
-                const animalsChoices = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"]
-                const [animals, setAnimals] = useState(['leone', 'zebra', 'gorilla'])
-                function addAnimal() {
-                    const randomNumber = Math.floor(Math.random() * animalsChoices.length);
-                    const animalRandom = animalsChoices.splice(randomNumber, 1)
-                    setAnimals([...animals, ...animalRandom])
+            const [show, setShow] = useState(false)
+            const [animals, setAnimals] = useState(['leone', 'rinoceronte'])
+            const [animal, setAnimal] = useState('')
+            function addAnimal() {
+                setAnimals([...animals, animal])
+                setShow(false)
+                setAnimal('')
+            }
+            function Modal({
+                title,
+                content,
+                show = false,
+                onClose = () => { },
+                onConfirm = () => { }
+            }) {
+                return show && ReactDOM.createPortal(
+                    <div className="modal-container">
+                        <div className="modal">
+                            <h2>{title}</h2>
+                            {content}
+                            <div>
+                                <button onClick={onClose}>Annulla</button>
+                                <button onClick={onConfirm}>Conferma</button></div>
+                        </div>
+                    </div>,
+                    document.body
+                )
+            }
+            function InputText() {
+                function addAnimal(e) {
+                    e.preventDefault
+                    setAnimal(e.target.value)
+                    console.log(animal)
                 }
+                return <input onChange={addAnimal} type="text" value={animal} />
+            }
+            function AnimalsAccordion() {
+
+
                 return (
                     <div>
-                        <button onClick={addAnimal}>Aggiungi animale random</button>
+                        <button onClick={() => setShow(true)}>Aggiungi animale </button>
                         <details>
                             <summary>Animali</summary>
                             <ul>
@@ -45,6 +76,7 @@
                     </figure>
                     <div className="lista-animali">
                         {<AnimalsAccordion />}</div>
+                    {<Modal title='inserisci un animale' content={<input type='text' value={animal} onChange={(e) => setAnimal(e.target.value)} />} show={show} onClose={() => { setShow(false) }} onConfirm={addAnimal} />}
                 </main>
                 <footer>
                     <p>Creato con amore da... un collega sbadato! 🐾</p>
